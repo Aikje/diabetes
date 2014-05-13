@@ -2,10 +2,13 @@
 <resources>
 
     <string name="app_name">diabetes3</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section1">Menu</string>
+    <string name="title_section2">Invoeren</string>
+    <string name="title_section3">Weergeven</string>
+    <string name="title_section4">Agenda</string>
     <string name="action_settings">Settings</string>
-    <string />
+    <string name="button1">Invoeren</string>
+    <string name="button2">Weergeven</string>
+    <string name="button3">Agenda</string>
 
 </resources>

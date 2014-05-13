@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements
 		ActionBar.OnNavigationListener {
@@ -23,6 +25,8 @@ public class MainActivity extends ActionBarActivity implements
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+	final String[]					menuEntries	= { "Menu", "Login", "Invoer", "About" };
+	final String[]					fragments	= { "com.aikje.diabetes3.fragment_main", "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,8 @@ public class MainActivity extends ActionBarActivity implements
 						android.R.id.text1, new String[] {
 								getString(R.string.title_section1),
 								getString(R.string.title_section2),
-								getString(R.string.title_section3), }), this);
+								getString(R.string.title_section3),
+								getString(R.string.title_section4),}), this);
 	}
 
 	@Override
@@ -89,6 +94,7 @@ public class MainActivity extends ActionBarActivity implements
 				.beginTransaction()
 				.replace(R.id.container,
 						PlaceholderFragment.newInstance(position + 1)).commit();
+		
 		return true;
 	}
 
@@ -125,6 +131,8 @@ public class MainActivity extends ActionBarActivity implements
 					.findViewById(R.id.section_label);
 			textView.setText(Integer.toString(getArguments().getInt(
 					ARG_SECTION_NUMBER)));
+			Toast.makeText(getActivity(), "Changed fragment", Toast.LENGTH_LONG).show();
+			Log.d("PlaceholderFragment", "Changed fragment");
 			return rootView;
 		}
 	}
