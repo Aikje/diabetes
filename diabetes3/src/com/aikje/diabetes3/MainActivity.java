@@ -25,7 +25,7 @@ public class MainActivity extends ActionBarActivity implements
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	final String[]					menuEntries	= { "Menu", "Login", "Invoer", "About" };
+	final String[]					menuEntries	= { "Menu", "Login", "Invoer", "Weergeven" };
 	final String[]					fragments	= { "com.aikje.diabetes3.fragment_main", "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar" };
 
 	@Override
@@ -43,11 +43,7 @@ public class MainActivity extends ActionBarActivity implements
 		// Specify a SpinnerAdapter to populate the dropdown list.
 				new ArrayAdapter<String>(actionBar.getThemedContext(),
 						android.R.layout.simple_list_item_1,
-						android.R.id.text1, new String[] {
-								getString(R.string.title_section1),
-								getString(R.string.title_section2),
-								getString(R.string.title_section3),
-								getString(R.string.title_section4),}), this);
+						android.R.id.text1, menuEntries), this);
 	}
 
 	@Override
