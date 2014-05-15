@@ -131,7 +131,6 @@ public class MainActivity extends ActionBarActivity implements
 					.findViewById(R.id.section_label);
 			textView.setText(Integer.toString(getArguments().getInt(
 					ARG_SECTION_NUMBER)));
-			Toast.makeText(getActivity(), "Changed fragment", Toast.LENGTH_LONG).show();
 			Log.d("PlaceholderFragment", "Changed fragment");
 			return rootView;
 		}
