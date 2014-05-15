@@ -125,8 +125,7 @@ public class MainActivity extends ActionBarActivity implements
 					false);
 			TextView textView = (TextView) rootView
 					.findViewById(R.id.section_label);
-			textView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
+			textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 			Log.d("PlaceholderFragment", "Changed fragment");
 			return rootView;
 		}
