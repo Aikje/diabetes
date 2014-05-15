@@ -1,13 +1,12 @@
 package com.aikje.diabetes3;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.content.Context;
-import android.os.Build;
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements
 		ActionBar.OnNavigationListener {
@@ -25,8 +23,8 @@ public class MainActivity extends ActionBarActivity implements
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	final String[]					menuEntries	= { "Menu", "Login", "Invoer", "Weergeven" };
-	final String[]					fragments	= { "com.aikje.diabetes3.fragment_main", "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar" };
+	final String[]					menuEntries	= { "Home", "Login", "Invoer", "Weergeven", "Agenda"};
+	final String[]					fragments	= { "com.aikje.diabetes3.fragment_home", "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,16 +80,72 @@ public class MainActivity extends ActionBarActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
+	/*
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
+		
+		
 		getSupportFragmentManager()
 				.beginTransaction()
 				.replace(R.id.container,
 						PlaceholderFragment.newInstance(position + 1)).commit();
 		
+		
+		ListContentFragment newFragment = new ListContentFragment();
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		
+		ft.replace(R.id.activity_main, newFragment, fragments[position]);
+		
+		ft.commit();
 		return true;
+	}
+*/
+	
+	/**
+	 * A ListContentFragment class.
+	 */
+
+		  @Override
+		  public boolean onNavigationItemSelected(int position, long itemId) {
+		    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+		    // Replace whatever is in the fragment container with this fragment
+		    // and give the fragment a tag name equal to the string at the position
+		    // selected
+		    ft.replace(R.id.main, Fragment.instantiate(MainActivity.this, fragments[position]));
+
+		    // Apply changes
+		    ft.commit();
+		    return true;
+		};
+	
+	/**
+	 * A ListContentFragment class.
+	 */
+	
+	public class ListContentFragment extends Fragment {
+	    private String mText;
+
+	    @Override
+	    public void onAttach(Activity activity) {
+	      // This is the first callback received; here we can set the text for
+	      // the fragment as defined by the tag specified during the fragment
+	      // transaction
+	      super.onAttach(activity);
+	      mText = getTag();
+	    }
+
+	    @Override
+	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	            Bundle savedInstanceState) {
+	        // This is called to define the layout for the fragment;
+	        // we just create a TextView and set its text to be the fragment tag
+	        TextView text = new TextView(getActivity());
+	        text.setText(mText);
+	        return text;
+	    }
 	}
 
 	/**
