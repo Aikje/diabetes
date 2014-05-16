@@ -1,5 +1,6 @@
 package com.aikje.diabetes3;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity implements
+@SuppressLint("ValidFragment") public class MainActivity extends ActionBarActivity implements
 		ActionBar.OnNavigationListener {
 
 	/**
@@ -23,7 +24,7 @@ public class MainActivity extends ActionBarActivity implements
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	final String[]					menuEntries	= { "Home", "Login", "Invoer", "Weergeven", "Agenda"};
+	final String[]					menuEntries	= { "Home", "Login", "Invoer", "Grafiek", "Kalender"};
 	final String[]					fragments	= { "com.aikje.diabetes3.fragment_home", "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar" };
 
 	@Override
@@ -126,7 +127,7 @@ public class MainActivity extends ActionBarActivity implements
 	 */
 	
 	public class ListContentFragment extends Fragment {
-	    private String mText;
+	    private String mText; 
 
 	    @Override
 	    public void onAttach(Activity activity) {
