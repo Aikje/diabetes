@@ -1,5 +1,6 @@
 package com.aikje.diabetes3;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
-import com.jjoe64.graphview.GraphView.*;
 
 public class fragment_graph extends Fragment{
 
@@ -27,17 +28,24 @@ public class fragment_graph extends Fragment{
 		
 		// init example series data
 		GraphViewSeries exampleSeries = new GraphViewSeries(new GraphViewData[] {
-		    new GraphViewData(1, 2.0d)
-		    , new GraphViewData(2, 1.5d)
-		    , new GraphViewData(3, 2.5d)
-		    , new GraphViewData(4, 1.0d)
+		    new GraphViewData(1, 5)
+		    , new GraphViewData(2, 7.5)
+		    , new GraphViewData(3, 5.5)
+		    , new GraphViewData(4, 10.0)
+		    , new GraphViewData(5, 9.2)
+		    , new GraphViewData(6, 8.5)
+		    , new GraphViewData(7, 5.9)
+		    , new GraphViewData(8, 7.1)
 		});
 		 
-		GraphView graphView = new LineGraphView(
-		    getActivity() // context
-		    , "GraphViewDemo" // heading
-		);
+		GraphView graphView = new LineGraphView(getActivity(), "Overzicht bloedsuikerwaarden in mmol/L");
+		
 		graphView.addSeries(exampleSeries); // data
+		graphView.getGraphViewStyle().setGridColor(Color.WHITE);
+		graphView.setViewPort(1, 4);
+		graphView.setScrollable(true);
+		graphView.setScalable(true);
+		graphView.setManualYAxisBounds(10, 2);
 		 
 		LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.graph1);
 		layout.addView(graphView);

@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-@SuppressLint("ValidFragment") public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends ActionBarActivity implements
 		ActionBar.OnNavigationListener {
 
 	/**
@@ -81,29 +81,6 @@ import android.widget.TextView;
 		return super.onOptionsItemSelected(item);
 	}
 
-	/*
-	@Override
-	public boolean onNavigationItemSelected(int position, long id) {
-		// When the given dropdown item is selected, show its contents in the
-		// container view.
-		
-		
-		getSupportFragmentManager()
-				.beginTransaction()
-				.replace(R.id.container,
-						PlaceholderFragment.newInstance(position + 1)).commit();
-		
-		
-		ListContentFragment newFragment = new ListContentFragment();
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		
-		ft.replace(R.id.activity_main, newFragment, fragments[position]);
-		
-		ft.commit();
-		return true;
-	}
-*/
-	
 	/**
 	 * A ListContentFragment class.
 	 */

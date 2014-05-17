@@ -33,7 +33,7 @@ public class fragment_home extends Fragment{
 			public void onClick(View v)
 			{
 				// uitvoerbare code voor button1
-				Toast.makeText(getActivity(), "Button 1 clicked", Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), "Invoeren", Toast.LENGTH_LONG).show();
 				Log.d("fragment_home", "Button1 clicked");
 			}
 		});
@@ -45,7 +45,7 @@ public class fragment_home extends Fragment{
 			public void onClick(View v)
 			{
 				// uitvoerbare code voor button2
-				Toast.makeText(getActivity(), "Button 2 clicked", Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), "Weergeven", Toast.LENGTH_LONG).show();
 				Log.d("fragment_home", "Button2 clicked");
 			}
 		});
@@ -57,7 +57,7 @@ public class fragment_home extends Fragment{
 			public void onClick(View v)
 			{
 				// uitvoerbare code voor button3
-				Toast.makeText(getActivity(), "Button 3 clicked", Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), "Agenda", Toast.LENGTH_LONG).show();
 				Log.d("fragment_home", "Button3 clicked");
 			}
 		});
