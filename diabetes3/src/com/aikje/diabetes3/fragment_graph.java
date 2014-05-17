@@ -39,7 +39,7 @@ public class fragment_graph extends Fragment{
 		);
 		graphView.addSeries(exampleSeries); // data
 		 
-		LinearLayout layout = (LinearLayout) getView().findViewById(R.id.graph1);
+		LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.graph1);
 		layout.addView(graphView);
 
 		return rootView;
