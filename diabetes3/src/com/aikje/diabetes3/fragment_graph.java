@@ -41,11 +41,19 @@ public class fragment_graph extends Fragment{
 		GraphView graphView = new LineGraphView(getActivity(), "Overzicht bloedsuikerwaarden in mmol/L");
 		
 		graphView.addSeries(exampleSeries); // data
-		graphView.getGraphViewStyle().setGridColor(Color.WHITE);
+		graphView.getGraphViewStyle().setGridColor(Color.BLACK);
+		graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.BLACK);
+		graphView.getGraphViewStyle().setVerticalLabelsColor(Color.BLACK);
+		// graphView.getGraphViewStyle().setBackgroundColor();
+		// graphView.setBackgroundColor(Color.rgb(202, 202, 202));
+		graphView.setBackgroundColor(Color.BLACK);
 		graphView.setViewPort(1, 4);
 		graphView.setScrollable(true);
 		graphView.setScalable(true);
 		graphView.setManualYAxisBounds(10, 2);
+		((LineGraphView) graphView).setDrawBackground(true);
+        ((LineGraphView) graphView).setBackgroundColor(Color.rgb(255, 105, 4));
+        // ((LineGraphView) graphView).setBackgroundColor(Color.rgb(202, 202, 202));
 		 
 		LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.graph1);
 		layout.addView(graphView);
