@@ -3,11 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    
+    <EditText
+        android:id="@+id/waardeInvoer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number" 
+        android:hint="Voer de waarde in: " >
+        
+        <requestFocus />
+        
+        </EditText>
 
-    <TextView
-        android:id="@+id/textView1"
+    <EditText
+        android:id="@+id/commentaarInvoer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Voer eventueel commentaar in:" />
+
+    <Button
+        android:id="@+id/verzendGegevens"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dit is de invoerpagina" />
+        android:text="@string/verzend_gegevens" />
 
 </LinearLayout>
