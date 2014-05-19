@@ -31,8 +31,8 @@ public class fragment_graph extends Fragment{
 		String timestamp2 = new String ("gisteren");
 		String timestamp3 = new String ("vandaag");
 		
-		// init example series data
-		GraphViewSeries exampleSeries = new GraphViewSeries(new GraphViewData[] {
+		// data voor grafiek
+		GraphViewSeries graphData = new GraphViewSeries(new GraphViewData[] {
 		    new GraphViewData(1, 5)
 		    , new GraphViewData(2, 7.5)
 		    , new GraphViewData(3, 5.5)
@@ -45,7 +45,7 @@ public class fragment_graph extends Fragment{
 		 
 		GraphView graphView = new LineGraphView(getActivity(), "Overzicht bloedsuikerwaarden in mmol/L");
 		
-		graphView.addSeries(exampleSeries); // data
+		graphView.addSeries(graphData); // data
 		graphView.getGraphViewStyle().setGridColor(Color.BLACK);
 		graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.BLACK);
 		graphView.getGraphViewStyle().setVerticalLabelsColor(Color.BLACK);

@@ -10,8 +10,10 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number" 
-        android:hint="Voer de waarde in: " >
-        
+        android:hint="@string/waarde"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"  >
+
         <requestFocus />
         
         </EditText>
@@ -21,12 +23,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Voer eventueel commentaar in:" />
+        android:hint="@string/commentaar"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp" />
 
     <Button
         android:id="@+id/verzendGegevens"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
         android:text="@string/verzend_gegevens" />
 
 </LinearLayout>

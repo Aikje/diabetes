@@ -11,5 +11,7 @@
     <string name="button2">Weergeven</string>
     <string name="button3">Agenda</string>
     <string name="verzend_gegevens">Verzend gegevens</string>
+    <string name="commentaar">Voer eventueel commentaar in:</string>
+    <string name="waarde">"Voer de waarde in: "</string>
 
 </resources>
