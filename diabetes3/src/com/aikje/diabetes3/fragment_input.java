@@ -1,6 +1,7 @@
 package com.aikje.diabetes3;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 
 import android.os.Bundle;
@@ -12,6 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+/**
+ * @author Aike Brakel
+ */
 
 public class fragment_input extends Fragment{
 
@@ -44,7 +49,9 @@ public class fragment_input extends Fragment{
 				String commentaarInvoerString = commentaarInvoer.getText().toString();
 				
 				// omzetten van waarde naar integer
-				Integer waardeInvoerInteger = Integer.parseInt(waardeInvoer.getText().toString());
+				Double waardeInvoerDouble = Double.parseDouble(waardeInvoer.getText().toString());
+				
+				fragment_graph.addValueToGraphData(waardeInvoerDouble);
 				
 				// toast om te laten zien wat er is ingevoerd
 				Toast.makeText(getActivity(), "Waarde: " + waardeInvoerString + ". Commentaar: " + commentaarInvoerString + ". Timestamp: " + getCurrentTimeStamp(), Toast.LENGTH_LONG).show();
@@ -57,7 +64,7 @@ public class fragment_input extends Fragment{
 	}
 	/**
 	 * @return Timestamp in het formaat: yyyy-MM-dd HH:mm:ss
-	 */
+	 */ 
 	public static String getCurrentTimeStamp(){
 	    try {
 
@@ -71,4 +78,12 @@ public class fragment_input extends Fragment{
 	        return null;
 	    }
 	}
+	
+	public void onVerzendGegevens()
+	{
+		// add graphDataValue to graphData with fragment_graph.addValueToGraphData()
+		// http://jjoe64.github.io/GraphView/javadoc/com/jjoe64/graphview/GraphViewSeries.html
+		
+	}
+	
 }

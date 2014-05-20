@@ -10,8 +10,13 @@ import android.widget.LinearLayout;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphViewDataInterface;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
+
+/**
+ * @author Aike Brakel
+ */
 
 public class fragment_graph extends Fragment{
 
@@ -43,15 +48,15 @@ public class fragment_graph extends Fragment{
 		    , new GraphViewData(8, 7.1)
 		});
 		 
-		GraphView graphView = new LineGraphView(getActivity(), "Overzicht bloedsuikerwaarden in mmol/L");
+		GraphView graphView = new LineGraphView(getActivity(), "Waarden in mmol/L");
 		
 		graphView.addSeries(graphData); // data
 		graphView.getGraphViewStyle().setGridColor(Color.BLACK);
 		graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.BLACK);
 		graphView.getGraphViewStyle().setVerticalLabelsColor(Color.BLACK);
 		graphView.setViewPort(1, 4);
-		// graphView.setScrollable(true);
-		// graphView.setScalable(true);
+		graphView.setScrollable(true);
+		graphView.setScalable(true);
 		graphView.setManualYAxisBounds(10, 2);
 		((LineGraphView) graphView).setDrawBackground(true);
         ((LineGraphView) graphView).setBackgroundColor(Color.rgb(255, 105, 4));
@@ -62,5 +67,11 @@ public class fragment_graph extends Fragment{
 		layout.addView(graphView);
 
 		return rootView;
+	}
+	
+	public void appendData(GraphViewDataInterface waardeInvoerDouble, boolean scrollToEnd, int maxDataCount)
+	{
+		// TODO
+		
 	}
 }
