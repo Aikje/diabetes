@@ -68,10 +68,9 @@ public class fragment_graph extends Fragment{
 
 		return rootView;
 	}
-	
-	public void appendData(GraphViewDataInterface waardeInvoerDouble, boolean scrollToEnd, int maxDataCount)
-	{
-		// TODO
+
+	public static void addValueToGraphData(Double waardeInvoerDouble) {
+		// TODO Auto-generated method stub
 		
 	}
 }
