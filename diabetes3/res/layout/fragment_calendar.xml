@@ -9,7 +9,7 @@
         android:id="@+id/openKalender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Open kalender" />
+        android:text="Maak herinnering" />
 
     <TextView
         android:id="@+id/textView1"

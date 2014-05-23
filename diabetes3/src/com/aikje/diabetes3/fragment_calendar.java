@@ -1,5 +1,8 @@
 package com.aikje.diabetes3;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,18 +36,21 @@ public class fragment_calendar extends Fragment {
 			 */
 			public void onClick(View v)
 			{
-				Intent i = new Intent();
-				i.setClassName("com.android.calendar","com.android.calendar.AgendaActivity");
-				startActivity(i);
+				Intent intent = new Intent(Intent.ACTION_EDIT);  
+				intent.setType("vnd.android.cursor.item/event");
+				intent.putExtra("title", "Bloedsuikerwaarden invoeren");
+				intent.putExtra("description", "Meet de bloedsuikerwaarden en voer deze in in de ZorgZaak applicatie.");
+				intent.putExtra("beginTime", fragment_input.getCurrentTimeStamp());
+				startActivity(intent);
 				
 				
 				// toast om te laten zien wat er is ingevoerd
-				Toast.makeText(getActivity(), "Kalender gestart", Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), "Kalender geopend", Toast.LENGTH_LONG).show();
 				// logje om te laten zien wat er is ingevoerd
-				Log.d("fragment_calendar", "Kalender gestart");
+				Log.d("fragment_calendar", "Kalender geopend");
 			}
 		});
-		
+				
 		return rootView;
 
 	}
