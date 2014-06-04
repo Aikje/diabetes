@@ -1138,8 +1138,8 @@ containing a value of this type.
         public static final int showHome=0x7f050004;
         public static final int showTitle=0x7f050006;
         public static final int split_action_bar=0x7f05001e;
-        public static final int statusBad=0x7f050040;
-        public static final int statusGood=0x7f05003f;
+        public static final int statusBad=0x7f05003f;
+        public static final int statusGood=0x7f050040;
         public static final int statusMedium=0x7f050041;
         public static final int statusText=0x7f05003d;
         public static final int submit_area=0x7f050039;

@@ -6,52 +6,53 @@
 package com.example.sqlite;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
+import android.widget.Toast;
 
 public class DatabaseHandler extends SQLiteOpenHelper{
 	
-	//Variabelen
-	//Database versie
+	private Context localContext = null;
 	private static final int DATABASE_VERSION = 1;
-	
-	//Database naam
 	private static final String DATABASE_NAME = "recoma.db";
-	
-	//Database table + kollomen
 	private static final String TABLE_METING = "meting";
-	//De mid van de sqlite database moet niet verzonden worden wanneer een meting naar de centrale database gaat!
 	private static final String METING_MID = "mid";
-	//De pid die wordt verstuurd naar de centrale database moet altijd de id van de ingelogde patiënt zijn!
 	private static final String METING_PID = "pid";
-	//Timestamp van de genomen meting.
 	private static final String METING_DATUM = "datum";
-	//Gekozen status van de patiënt, er staan in de app verscheidene statussen die gelinkt zijn aan een integer waarde.
 	private static final String METING_STATUS = "status";
-	//Bloedsuikerspiegel van de patiënt tijdens de meting.
 	private static final String METING_BLOEDSUIKER = "bloedsuiker";
-	//Commentaar toegevoegd aan de meting door de patiënt.
 	private static final String METING_COMMENTAAR = "commentaar";
-	
-	//private SQLiteDatabase localdb;
+	private String httpposturl = "http://recoma.samba-ti.nl/php/syncRecord.php";
 	
 	public DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		//this.localdb = this.getWritableDatabase();
+		localContext = context;
 	}
 
-	//Maak alle tables aan
+	/**
+	 * In de onCreate wordt de table Meting aangemaakt.
+	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		String CREATE_METING_TABLE = "CREATE TABLE " + TABLE_METING + "(" 
 									+ METING_MID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 									+ METING_PID + " INTEGER,"
-									+ METING_DATUM + " DATETIME DEFAULT CURRENT_TIMESTAMP,"
+									+ METING_DATUM + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
 									+ METING_STATUS + " INTEGER,"
 									+ METING_BLOEDSUIKER + " INTEGER,"
 									+ METING_COMMENTAAR + " TEXT" + ")";
@@ -66,15 +67,19 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		//Maak tabellen weer aan
 		onCreate(db);	
 	}
-	
-	//Voeg nieuwe meting toe
-	public void addMeting(int pid, String datum, int status, int bloedsuiker, String commentaar)
+
+	/**
+	 * Voeg nieuwe meting toe.
+	 * Mid is AUTO_INCREMENT dus die wordt niet meegezonden.
+	 * Pid staat vast aan de ingelogde patiënt en moet met een methode worden opgehaald.
+	 * Datum wordt automatisch ingevult.
+	 */
+	public void addMeting(int status, int bloedsuiker, String commentaar)
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
 		
 		ContentValues values = new ContentValues();
-		values.put(METING_PID, pid);
-		values.put(METING_DATUM, datum);
+		values.put(METING_PID, getLocalPid());
 		values.put(METING_STATUS, status);
 		values.put(METING_BLOEDSUIKER, bloedsuiker);
 		values.put(METING_COMMENTAAR, commentaar);
@@ -83,9 +88,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		db.close();
 	}
 	
-	public List<Meting> listMeting()
+	/**
+	 * Methode om een List aan te maken en deze te vullen met alle data van de tabel meting.
+	 */
+	public ArrayList<ArrayList<NameValuePair>> listMeting()
 	{
-		List<Meting> metingen = new ArrayList<Meting>();
+		ArrayList<ArrayList<NameValuePair>> totalnvPairs = new ArrayList<ArrayList<NameValuePair>>();
+		ArrayList<NameValuePair> nvPairs;
 		
 		String query = "SELECT * FROM " + TABLE_METING;
 		
@@ -95,18 +104,22 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		cursor.moveToFirst();
 		while(cursor.isAfterLast() == false)
 		{
-			Meting meting = new Meting();
-			meting.setPid(cursor.getInt(1));
-			meting.setDatum(cursor.getString(2));
-			meting.setStatus(cursor.getInt(3));
-			meting.setBloedsuiker(cursor.getInt(4));
-			meting.setCommentaar(cursor.getString(5));
-			metingen.add(meting);
+			nvPairs = new ArrayList<NameValuePair>(6);
+			nvPairs.add(new BasicNameValuePair("mid", String.valueOf(cursor.getInt(0))));
+			nvPairs.add(new BasicNameValuePair("pid", String.valueOf(cursor.getInt(1))));
+			nvPairs.add(new BasicNameValuePair("datum", cursor.getString(2)));
+			nvPairs.add(new BasicNameValuePair("status", String.valueOf(cursor.getInt(3))));
+			nvPairs.add(new BasicNameValuePair("bloedsuiker", String.valueOf(cursor.getInt(4))));
+			nvPairs.add(new BasicNameValuePair("commentaar", cursor.getString(5)));
+			totalnvPairs.add(nvPairs);
 		}
 		
-		return metingen;
+		return totalnvPairs;
 	}
 	
+	/**
+	 * Methode om het aantal metingen in de SQLite database te tellen.
+	 */
 	public int countMeting()
 	{
 		String query = "SELECT * FROM " + TABLE_METING;
@@ -114,5 +127,102 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		Cursor cursor = db.rawQuery(query, null);
 		cursor.close();
 		return cursor.getCount();
+	}
+	
+	/**
+	 * Methode om tabel meting leeg te maken.
+	 */
+	public void resetDatabase()
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_METING,null,null);
+	}
+	
+	/**
+	 * verstuur een encoded ArrayList met raw data naar een PHP script op de server.
+	 * Deze PHP script kijkt of de verzonden record al bestaat, zo niet dan zal deze worden toegevoegd aan de database.
+	 */
+	private void syncRecord(ArrayList<NameValuePair> data)
+	{
+		try
+		{
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(httpposturl);
+			httppost.setEntity(new UrlEncodedFormEntity(data));
+			HttpResponse response = httpclient.execute(httppost);
+			Log.i("syncRecord", response.getStatusLine().toString());
+			String executeCode = EntityUtils.toString(response.getEntity());
+			Log.i("webResponse", executeCode);
+		}
+		catch(Exception e)
+		{
+			Log.e("syncRecord", "Error: " + e.toString());
+			Toast.makeText(null, "Kan data niet versturen: " + e.toString(), Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	/*
+	 * Sync gestart door de applicatie.
+	 */
+	public void syncDatabase()
+	{
+		if(isNetworkConnected() == true)
+		{
+			for(ArrayList<NameValuePair> nvp : listMeting())
+			{
+				syncRecord(nvp);
+			}
+		}
+		else
+		{
+			//Geen netwerkverbinding
+			Log.e("syncDatabase", "No network connection");
+			Toast.makeText(null, "Geen netwerkconnectie", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	/*
+	 * Sync gestart door de gebruiker.
+	 */
+	public void forceSyncDatabase()
+	{
+		if(isNetworkConnected() == true)
+		{
+			
+		}
+		else
+		{
+			//Geen netwerkverbinding
+			Log.e("syncDatabase", "No network connection");
+			Toast.makeText(null, "Geen netwerkconnectie", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	/*
+	 * Methode om te kijken of er een netwerkverbinding is.
+	 */
+	private boolean isNetworkConnected() 
+	{
+		boolean isConnected = false;
+		ConnectivityManager cm = (ConnectivityManager) localContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo[] networkInfos = cm.getAllNetworkInfo();
+		for (NetworkInfo ni : networkInfos)
+		{
+			if(ni.isConnected())
+			{
+				isConnected = true;
+				break;
+			}
+		}
+		
+		return isConnected;
+	}
+	
+	/**
+	 * Dummy methode voor het verkrijgen van de pid van de ingelogde gebruiker
+	 */
+	private int getLocalPid()
+	{
+		return 1;
 	}
 }

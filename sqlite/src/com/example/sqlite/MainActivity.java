@@ -1,5 +1,8 @@
 package com.example.sqlite;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 @SuppressWarnings("unused")
 public class MainActivity extends ActionBarActivity {
@@ -20,10 +24,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         
         DatabaseHandler db = new DatabaseHandler(this);
-        
+       
         Log.d("Insert: ", "Inserting...");
-        db.addMeting(1, "26-5-2014", 1, 80, "Taart gehad");
-        db.addMeting(1, "27-05-2014", 2, 70, "test");
+        db.addMeting(1, 80, "sync1");
+        db.addMeting(2, 70, "sync2");
+        db.syncDatabase();
         
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -32,8 +37,12 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private FileOutputStream openFileOutput(File f) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.

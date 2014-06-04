@@ -1,5 +1,13 @@
 package com.example.sqlite;
 
+/*
+ * LET OP!
+ * Deze class wordt gebruikt bij het ophalen van metinggegevens uit de database NIET om een nieuwe meting aan te maken.
+ * Datamanipulatie van de originele gegevens via deze class is niet mogelijk.
+ * 
+ * EDIT(3-6-2014)
+ * Deze class is nu overbodig maar wordt voor de zekerheid in het project gehouden.
+ */
 public class Meting {
 	//Variabelen
 	private int 	_mid;
@@ -9,13 +17,25 @@ public class Meting {
 	private int 	_bloedsuiker;
 	private String 	_commentaar;
 	
-	//Lege Constructor
+	/**
+	 * Lege constructor Meting
+	 * Voor wanneer de gegevens later pas ingevult kunnen worden.
+	 */
 	public Meting()
 	{
-		//leeg
+		//Leeg
 	}
 	
-	//Constructor
+	/**
+	 * Algemene constructor Meting
+	 * 
+	 * @param mid			Meting ID, AUTO_INCREMENT in database
+	 * @param pid			Patiënt ID, staat vast aan de ingelogde persoon
+	 * @param datum			Timestamp van de aangemaakte meting
+	 * @param status		Status van de patiënt
+	 * @param bloedsuiker	Bloedsuikerwaarde
+	 * @param commentaar	Commentaar van de patiënt tijdens de meting
+	 */
 	public Meting(int mid, int pid, String datum, int status, int bloedsuiker, String commentaar)
 	{
 		_mid = mid;
@@ -58,6 +78,11 @@ public class Meting {
 	}
 	
 	//Set methods
+	public void setMid(int mid)
+	{
+		_mid = mid;
+	}
+	
 	public void setPid(int pid)
 	{
 		_pid = pid;
