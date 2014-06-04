@@ -1,5 +1,7 @@
 package com.aikje.diabetes3;
 
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,13 +11,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+@SuppressLint("ValidFragment")
 public class MainActivity extends ActionBarActivity implements
 		ActionBar.OnNavigationListener {
 
@@ -24,16 +25,20 @@ public class MainActivity extends ActionBarActivity implements
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	final String[]					menuEntries	= { "Home", "Login", "Invoer", "Grafiek", "Kalender"};
-	final String[]					fragments	= { "com.aikje.diabetes3.fragment_home", "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar" };
-
+	
+	static final String[]					menuEntries	= { "Login", "Invoer", "Grafiek", "Kalender"};
+	static final String[]					fragments	= { "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar" };
+	
+	JSONObject jsonObject = JSONfunctions.getJSONfromURL("http://recoma.samba-ti.nl/");
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		final ActionBar actionBar = getSupportActionBar();
 		setContentView(R.layout.activity_main);
 
 		// Set up the action bar to show a dropdown list.
-		final ActionBar actionBar = getSupportActionBar();
+
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
@@ -61,26 +66,7 @@ public class MainActivity extends ActionBarActivity implements
 				.getSelectedNavigationIndex());
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
+	
 	/**
 	 * A ListContentFragment class.
 	 */
@@ -162,5 +148,4 @@ public class MainActivity extends ActionBarActivity implements
 			return rootView;
 		}
 	}
-
 }

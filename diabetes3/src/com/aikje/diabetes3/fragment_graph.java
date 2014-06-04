@@ -32,8 +32,7 @@ public class fragment_graph extends Fragment{
 		
 		// timestamp wordt geparst naar string om weer te geven onder de grafiek.
 		String timestamp1 = new String ("eerder");
-		String timestamp2 = new String ("gisteren");
-		String timestamp3 = new String ("vandaag");
+		String timestamp2 = new String ("vandaag");
 		
 		// data voor grafiek
 		GraphViewSeries graphData = new GraphViewSeries(new GraphViewData[] {
@@ -43,8 +42,6 @@ public class fragment_graph extends Fragment{
 		    , new GraphViewData(4, 10.0)
 		    , new GraphViewData(5, 9.2)
 		    , new GraphViewData(6, 8.5)
-		    , new GraphViewData(7, 5.9)
-		    , new GraphViewData(8, 7.1)
 		});
 		 
 		GraphView graphView = new LineGraphView(getActivity(), "Waarden in mmol/L");
@@ -53,14 +50,16 @@ public class fragment_graph extends Fragment{
 		graphView.getGraphViewStyle().setGridColor(Color.BLACK);
 		graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.BLACK);
 		graphView.getGraphViewStyle().setVerticalLabelsColor(Color.BLACK);
-		graphView.setViewPort(1, 4);
-		graphView.setScrollable(true);
-		graphView.setScalable(true);
+		graphView.getGraphViewStyle().setNumVerticalLabels(9);
+		graphView.getGraphViewStyle().setNumHorizontalLabels(3);
+		graphView.setViewPort(1, 5);
+		// graphView.setScrollable(true);
+		// graphView.setScalable(true);
 		graphView.setManualYAxisBounds(10, 2);
 		((LineGraphView) graphView).setDrawBackground(true);
         ((LineGraphView) graphView).setBackgroundColor(Color.rgb(255, 105, 4));
         
-        graphView.setHorizontalLabels(new String[] {timestamp1, timestamp2, timestamp3});
+        graphView.setHorizontalLabels(new String[] {timestamp1, timestamp2});
 		 
 		LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.graph1);
 		layout.addView(graphView);

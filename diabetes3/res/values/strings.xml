@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">diabetes3</string>
+    <string name="app_name">ZorgZaak</string>
     <string name="title_section1">Menu</string>
     <string name="title_section2">Invoeren</string>
     <string name="title_section3">Weergeven</string>
@@ -14,5 +14,9 @@
     <string name="commentaar">Voer eventueel commentaar in:</string>
     <string name="waarde">"Voer de waarde in: "</string>
     <string name="startcalendar">startCalendar</string>
+    <string name="hello_world">Hello World</string>
+    <string name="naam">Voer hier je gebruikers-ID in</string>
+    <string name="wachtwoord">Voer hier je wachtwoord in</string>
+    <string name="login_button">login button</string>
 
 </resources>
