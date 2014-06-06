@@ -2,13 +2,13 @@
 
 $databasehost = "recoma.samba-ti.nl";
 $databasename = "RecoMA";
-$databaseusername ="Recoma";
-$databasepassword = "$_KoM7833";
+$databaseusername ="RecoMA";
+$databasepassword = '$_KoM7833';
 
 $con = mysql_connect($databasehost,$databaseusername,$databasepassword) or die(mysql_error());
 mysql_select_db($databasename) or die(mysql_error());
 mysql_query("SET CHARACTER SET utf8");
-$query = file_get_contents("php://input");
+$query = "SELECT * FROM meting";
 $sth = mysql_query($query);
 
 if (mysql_errno()) {
