@@ -1,7 +1,5 @@
 package com.aikje.diabetes3;
 
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
@@ -26,10 +24,8 @@ public class MainActivity extends ActionBarActivity implements
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	
-	static final String[]					menuEntries	= { "Login", "Invoer", "Grafiek", "Kalender"};
-	static final String[]					fragments	= { "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar" };
-	
-	JSONObject jsonObject = JSONfunctions.getJSONfromURL("http://recoma.samba-ti.nl/");
+	static final String[]					menuEntries	= { "Login", "Invoer", "Grafiek", "Kalender", "Lijst"};
+	static final String[]					fragments	= { "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar", "com.aikje.diabetes3.fragment_list"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +84,7 @@ public class MainActivity extends ActionBarActivity implements
 	 * A ListContentFragment class.
 	 */
 	
+	@SuppressLint("ValidFragment")
 	public class ListContentFragment extends Fragment {
 	    private String mText; 
 
