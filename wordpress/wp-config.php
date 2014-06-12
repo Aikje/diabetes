@@ -16,13 +16,13 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'wordpress');
+define('DB_NAME', 'RecoMA');
 
 /** MySQL database username */
-define('DB_USER', 'WordPress');
+define('DB_USER', 'RecoMA');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'wurtpress');
+define('DB_PASSWORD', '$_KoM7833');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
@@ -42,14 +42,14 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',         'put your unique phrase here');
-define('SECURE_AUTH_KEY',  'put your unique phrase here');
-define('LOGGED_IN_KEY',    'put your unique phrase here');
-define('NONCE_KEY',        'put your unique phrase here');
-define('AUTH_SALT',        'put your unique phrase here');
-define('SECURE_AUTH_SALT', 'put your unique phrase here');
-define('LOGGED_IN_SALT',   'put your unique phrase here');
-define('NONCE_SALT',       'put your unique phrase here');
+define('AUTH_KEY',         'n)zy}urM{jMgVEN=VwL2Q`[xtAe]Gkb_N:+IET.!KW#(k-UL$VSbn`g|!+SBj .P');
+define('SECURE_AUTH_KEY',  '0G+kUY+#wPXHWO-<GRqW=ftbIJ78g=*zZbAA!yw&KnX2At *oxd#~!00])nk1~9u');
+define('LOGGED_IN_KEY',    '.@<On%_Wi; &7$~OD|epmsFR)hM~cC)F1a,6(f}-!nEoN]7LZtM:P)FqqmY-~gU ');
+define('NONCE_KEY',        '@_|OsYAAl4&M+F)oY{tw9+[IQM=eIAeP_POA}M)8|o&G&dQvr2O,%Y&K?W{yps8E');
+define('AUTH_SALT',        '<a8Unlc D~?`SC0lpZsEIgo86sQj&C=ga)p89T}Fn-iK<,rG_fu-[_{cM,gCc`D,');
+define('SECURE_AUTH_SALT', '?4Gd!}{Ki/-AUQb -!H=&J3&oeI9iV0B*@8!A3.-X Sk.)h|HF@y[7u-=*~|[w/b');
+define('LOGGED_IN_SALT',   'ol@OTq(U]t^-~<JXctZqx$sh3F|=u:z82-PoufMm%0v|1-E+-,}H[BzjT&R.kK%<');
+define('NONCE_SALT',       'GNc4WPdkY6i@4h61xF jQYX@Eerd<`GU$Y+h>7<rm#F_pys?Yh,r3|A+`5-Rp>[P');
 
 /**#@-*/
 
@@ -59,7 +59,7 @@ define('NONCE_SALT',       'put your unique phrase here');
  * You can have multiple installations in one database if you give each a unique
  * prefix. Only numbers, letters, and underscores please!
  */
-$table_prefix  = 'wp_';
+$table_prefix  = 'wp_ReCoMa_';
 
 /**
  * WordPress Localized Language, defaults to English.
