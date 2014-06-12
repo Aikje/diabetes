@@ -380,14 +380,15 @@ class WP_Widget_Meta extends WP_Widget {
 		$title = apply_filters( 'widget_title', empty($instance['title']) ? __( 'Meta' ) : $instance['title'], $instance, $this->id_base );
 
 		echo $before_widget;
-		if ( $title )
-			echo $before_title . $title . $after_title;
+		//if ( $title )
+		//	echo $before_title . $title . $after_title;
 ?>
 			<ul>
-			<?php wp_register(); ?>
+			
 			<li><?php wp_loginout(); ?></li>
-			<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo esc_attr(__('Syndicate this site using RSS 2.0')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
-			<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo esc_attr(__('The latest comments to all posts in RSS')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
+                        
+                        </ul>
+
 <?php
 			/**
 			 * Filter the "Powered by WordPress" text in the Meta widget.
@@ -396,11 +397,7 @@ class WP_Widget_Meta extends WP_Widget {
 			 *
 			 * @param string $title_text Default title text for the WordPress.org link.
 			 */
-			echo apply_filters( 'widget_meta_poweredby', sprintf( '<li><a href="%s" title="%s">%s</a></li>',
-				esc_url( __( 'https://wordpress.org/' ) ),
-				esc_attr__( 'Powered by WordPress, state-of-the-art semantic personal publishing platform.' ),
-				_x( 'WordPress.org', 'meta widget link text' )
-			) );
+
 
 			wp_meta();
 ?>
@@ -732,7 +729,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 			$cache[ $args['widget_id'] ] = ob_get_flush();
 			wp_cache_set( 'widget_recent_posts', $cache, 'widget' );
 		} else {
-			ob_flush();
+			ob_end_flush();
 		}
 	}
 
@@ -1348,11 +1345,12 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		<p>
 			<label for="<?php echo $this->get_field_id('nav_menu'); ?>"><?php _e('Select Menu:'); ?></label>
 			<select id="<?php echo $this->get_field_id('nav_menu'); ?>" name="<?php echo $this->get_field_name('nav_menu'); ?>">
+				<option value="0"><?php _e( '&mdash; Select &mdash;' ) ?></option>
 		<?php
 			foreach ( $menus as $menu ) {
 				echo '<option value="' . $menu->term_id . '"'
 					. selected( $nav_menu, $menu->term_id, false )
-					. '>'. $menu->name . '</option>';
+					. '>'. esc_html( $menu->name ) . '</option>';
 			}
 		?>
 			</select>
