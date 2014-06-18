@@ -1,5 +1,18 @@
 package com.aikje.diabetes3;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,8 +37,8 @@ public class MainActivity extends ActionBarActivity implements
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	
-	static final String[]					menuEntries	= { "Login", "Invoer", "Grafiek", "Kalender", "Lijst"};
-	static final String[]					fragments	= { "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar", "com.aikje.diabetes3.fragment_list"};
+	static final String[]					menuEntries	= { "Login", "Invoer", "Grafiek", "Kalender"};
+	static final String[]					fragments	= { "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,4 +157,64 @@ public class MainActivity extends ActionBarActivity implements
 			return rootView;
 		}
 	}
+	
+    public static String getJSONfromURL(){
+
+        //initialize
+        InputStream is = null;
+        String result = "";
+        JSONObject jArray = null;
+        String url = "http://recoma.samba-ti.nl/php/aikeAppTest.php";
+
+        //http post
+        try{
+//            HttpClient httpclient = new DefaultHttpClient();
+//            HttpPost httppost = new HttpPost(url);
+//            HttpResponse response;
+//            response = httpclient.execute(httppost);
+//            HttpEntity entity = response.getEntity();
+//            is = entity.getContent();
+        	
+			DefaultHttpClient httpClient = new DefaultHttpClient();
+            Log.d("getJSONfromURL", "test1");
+			HttpPost httpPost = new HttpPost(url);
+//			HttpGet get = new HttpGet(url);
+            Log.d("getJSONfromURL", "test2");
+
+			HttpResponse httpResponse = httpClient.execute(httpPost);
+//			HttpResponse httpResponse = httpClient.execute(get);
+            Log.d("getJSONfromURL", "test3");
+			HttpEntity httpEntity = httpResponse.getEntity();
+            Log.d("getJSONfromURL", "test4");
+			is = httpEntity.getContent();
+            Log.d("getJSONfromURL", "test5");
+        }catch(Exception e){
+         //   Log.e(tag, "Error in http connection "+e.toString());
+        }
+
+        //convert response to string
+        try{
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            is.close();
+            result=sb.toString();
+        }catch(Exception e){
+          //  Log.e(tag, "Error converting result "+e.toString());
+        }
+
+        //try parse the string to a JSON object
+        try{
+            jArray = new JSONObject(result);
+        }catch(JSONException e){
+        //    Log.e(tag, "Error parsing data "+e.toString());
+        }
+
+        //return jArray;
+        return result;
+    }
 }

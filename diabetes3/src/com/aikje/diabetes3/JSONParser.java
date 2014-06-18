@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
@@ -21,21 +22,24 @@ public class JSONParser {
 	static InputStream is = null;
 	static JSONObject jObj = null;
 	static String json = "";
+	static String url = "http://recoma.samba-ti.nl/php/aikeAppTest.php";
 
 	// constructor
 	public JSONParser() {
 
 	}
 
-	public JSONObject getJSONFromUrl(String url) {
+	public static JSONObject getJSONFromUrl() {
 
 		// Making HTTP request
 		try {
 			// defaultHttpClient
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
+//			HttpGet get = new HttpGet(url);
 
 			HttpResponse httpResponse = httpClient.execute(httpPost);
+//			HttpResponse httpResponse = httpClient.execute(get);
 			HttpEntity httpEntity = httpResponse.getEntity();
 			is = httpEntity.getContent();			
 
