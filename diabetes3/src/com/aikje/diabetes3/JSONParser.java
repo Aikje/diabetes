@@ -5,22 +5,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 public class JSONParser {
 
 	static InputStream is = null;
 	static JSONObject jObj = null;
+	static JSONArray jArr = null;
 	static String json = "";
 	static String url = "http://recoma.samba-ti.nl/php/aikeAppTest.php";
 
@@ -29,7 +30,7 @@ public class JSONParser {
 
 	}
 
-	public static JSONObject getJSONFromUrl() {
+	@SuppressLint("NewApi") public String getJSONFromUrl() throws JSONException {
 
 		// Making HTTP request
 		try {
@@ -39,9 +40,10 @@ public class JSONParser {
 //			HttpGet get = new HttpGet(url);
 
 			HttpResponse httpResponse = httpClient.execute(httpPost);
+			JSONArray json = new JSONArray(httpResponse);
 //			HttpResponse httpResponse = httpClient.execute(get);
-			HttpEntity httpEntity = httpResponse.getEntity();
-			is = httpEntity.getContent();			
+//			HttpEntity httpEntity = httpResponse.getEntity();
+//			is = httpEntity.getContent();			
 
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -50,7 +52,9 @@ public class JSONParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return json;
 		
+		/*
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					is, "iso-8859-1"), 8);
@@ -74,6 +78,23 @@ public class JSONParser {
 
 		// return JSON String
 		return jObj;
-
+		*/
+	}
+	
+	@SuppressWarnings("null")
+	public double[] getDataFromJSON(String jStr) 
+	{
+		String[] data = null;
+		double[] waarden = null;
+		String[] dataStr = jStr.split("},");
+			
+		for (int i = 0; i < dataStr.length; ++i)
+		{
+			String substr[] = dataStr[i].split("bloedsuiker");
+			data[i] = substr[1].substring(2, 6);
+			waarden[i] = Double.parseDouble(data[i]);
+		}
+		
+		return waarden;
 	}
 }
