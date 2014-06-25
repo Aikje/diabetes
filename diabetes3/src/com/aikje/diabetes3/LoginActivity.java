@@ -1,12 +1,17 @@
 package com.aikje.diabetes3;
 
+import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -15,43 +20,45 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class fragment_login extends Fragment{
+public class LoginActivity extends ActionBarActivity {
 
-	public static final String SETTING_INFOS = "SETTING_Infos";
-	public static final String UID = "NAME";
-	public static final String PASSWORD = "PASSWORD";
+	private static final String SETTING_INFOS = "SETTING_Infos";
+	private static final String UID = "NAME";
+	private static final String PASSWORD = "PASSWORD";
 	public static int uidInt = 0;
 	public static String passStr = "";
 	
 	private EditText field_uid;
 	private EditText field_pass;
 	
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(false);
-	}
+	//private Context context = this.getApplicationContext();
+	
+	// SharedPreferences ophalen uit MainActivity, hierna NAME & PASSWORD vullen met values.
+	SharedPreferences settings; 
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-		View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
 		
-        field_uid = (EditText) rootView.findViewById(R.id.uid); 
-        field_pass = (EditText) rootView.findViewById(R.id.password);
+		settings = this.getSharedPreferences(SETTING_INFOS, 0);
+		
+		field_uid = (EditText) findViewById(R.id.uid); 
+        field_pass = (EditText)findViewById(R.id.password);
+        
+     // informatie uit sharedPreferences ophalen en invullen in de juiste velden.
+        getInfo();
         
         // zodat er geen typewriter-font wordt gebruikt voor de hint in het wachtwoord-veld.
         field_pass.setTypeface(Typeface.DEFAULT);
 
         // ImageView voor login button
-		ImageView login_image = (ImageView) rootView.findViewById(R.id.image_button_login);
+		ImageView login_image = (ImageView) findViewById(R.id.image_button_login);
 		
 		// onTouchListener voor login_image 
 		login_image.setOnTouchListener(new OnTouchListener() {
 			
-	        @Override
-	        public boolean onTouch(View v, MotionEvent event) {
+			public boolean onTouch(View v, MotionEvent event) {
 
 	            switch (event.getAction()) {
 	                case MotionEvent.ACTION_DOWN: {
@@ -59,40 +66,35 @@ public class fragment_login extends Fragment{
 	                    ImageView view = (ImageView) v;
 	                    view.getDrawable().setColorFilter(0x77000000,PorterDuff.Mode.SRC_ATOP);
 	                    view.invalidate();
-	                    
-	                	// SharedPreferences ophalen uit MainActivity, hierna NAME & PASSWORD vullen met values.
-	                	final SharedPreferences settings = getActivity().getSharedPreferences(SETTING_INFOS, 0);
 	                		
 	                	// omzetten van de invoer naar string
 	                	String field_uidString = field_uid.getText().toString();
 	                	String field_passString = field_pass.getText().toString();
-	                	
-	                	// informatie uit sharedPreferences ophalen en invullen in de juiste velden.
-	                	getInfo();
-	                	//checkLogin();
+	                	 	
+	                	checkLogin();
 	                    
 	    				// if else structuur om te kijken of gebruikernaam en wachtwoord zijn ingevuld
 	    				if ((field_uidString == null || field_uidString.equals("")) && (field_passString == null || field_passString.equals(""))) {
 	    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
-	    					Toast.makeText(getActivity(), "Je hebt geen gebruikersnaam en wachtwoord ingevoerd!", Toast.LENGTH_SHORT).show(); 
-	    					Log.d("fragment_login", "Je hebt geen gebruikersnaam en wachtwoord ingevoerd!");
+	    					Toast.makeText(getApplicationContext(), "Je hebt geen gebruikersnaam en wachtwoord ingevoerd!", Toast.LENGTH_SHORT).show(); 
+	    					Log.d("Login", "Je hebt geen gebruikersnaam en wachtwoord ingevoerd!");
 	    				}
 	    				else if (field_uidString == null || field_uidString.equals("")) {
 	    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
-	    				    Toast.makeText(getActivity(), "Je hebt geen gebruikersnaam ingevuld!", Toast.LENGTH_SHORT).show(); 
-	    				    Log.d("fragment_login", "Je hebt geen gebruikersnaam ingevuld!");
+	    				    Toast.makeText(getApplicationContext(), "Je hebt geen gebruikersnaam ingevuld!", Toast.LENGTH_SHORT).show(); 
+	    				    Log.d("Login", "Je hebt geen gebruikersnaam ingevuld!");
 	    				}
 	    				else if (field_passString == null || field_passString.equals("")) {
 	    					uidInt = Integer.parseInt(field_uidString);
 	    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
-		    				Toast.makeText(getActivity(), "Je hebt geen wachtwoord ingevoerd! User ID: " + uidInt, Toast.LENGTH_SHORT).show(); 
-		    				Log.d("fragment_login", "Je hebt geen wachtwoord ingevoerd! User ID: " + uidInt);
+		    				Toast.makeText(getApplicationContext(), "Je hebt geen wachtwoord ingevoerd! User ID: " + uidInt, Toast.LENGTH_SHORT).show(); 
+		    				Log.d("Login", "Je hebt geen wachtwoord ingevoerd! User ID: " + uidInt);
 	    				}	
 	    				else {	   
 	    					uidInt = Integer.parseInt(field_uidString);
 	    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
 		    				// toast om te laten zien wat er is ingevoerd
-		    				Toast.makeText(getActivity(), "Gebruikersnaam: " + field_uidString + " Wachtwoord: " + field_passString + " User ID " + uidInt, Toast.LENGTH_LONG).show();
+		    				//Toast.makeText(null, "Gebruikersnaam: " + field_uidString + " Wachtwoord: " + field_passString + " User ID " + uidInt, Toast.LENGTH_LONG).show();
 		    				// logje om te laten zien wat er is ingevoerd
 		    				Log.d("fragment_input", "Gebruikersnaam: " + field_uidString + " Wachtwoord: " + field_passString + " User ID: " + uidInt);
 	
@@ -100,9 +102,9 @@ public class fragment_login extends Fragment{
 		    				// connectie maken met database, toast geven als het gelukt is.
 		    				//
 		    		        
-		    		        Log.d("fragment_login", "login button geklikt, gegevens opgeslagen in SharedPreferences");
-		    		        // Toast.makeText(getActivity().getApplicationContext(), "U bent verbonden met de database", Toast.LENGTH_SHORT).show();
-		    		        //Toast.makeText(getActivity().getApplicationContext(), "U bent NIET verbonden met de database", Toast.LENGTH_SHORT).show();
+		    		        Log.d("Login", "login button geklikt, gegevens opgeslagen in SharedPreferences");
+		    		        //Toast.makeText(context.getApplicationContext(), "U bent verbonden met de database", Toast.LENGTH_SHORT).show();
+		    		        //Toast.makeText(context.getApplicationContext(), "U bent NIET verbonden met de database", Toast.LENGTH_SHORT).show();
 	    				}
 	                    break;    
 	                }
@@ -118,16 +120,11 @@ public class fragment_login extends Fragment{
 	            return true;
 	        }
 	    });	
-		return rootView;
 	}
-  
-    public void onStop(){
-        super.onStop();
-    }
     
     public void getInfo()
     { 
-		SharedPreferences settings = getActivity().getSharedPreferences(SETTING_INFOS, 0);
+		//settings = this.getSharedPreferences(SETTING_INFOS, 0);
 		String name = settings.getString(UID, "");
 		String password = settings.getString(PASSWORD, "");
 		try 
@@ -143,10 +140,10 @@ public class fragment_login extends Fragment{
 		field_uid.setText(name);
 		field_pass.setText(password);	
     }
-    /*
+    
     public void checkLogin()
     {
-    	CheckLoginTask clt = new CheckLoginTask(this, this.getActivity());
+    	CheckLoginTask clt = new CheckLoginTask(this, getApplicationContext());
     	Boolean val = false;
     	
         try
@@ -163,13 +160,20 @@ public class fragment_login extends Fragment{
         
         if(val == true)
         {
-        	Toast.makeText(getActivity().getApplicationContext(), "U bent ingelogt", Toast.LENGTH_SHORT).show();
+        	Toast.makeText(getApplicationContext(), "U bent ingelogt", Toast.LENGTH_SHORT).show();
+        	//Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        	//startActivity(intent);
         	Log.i("Login", "Logged in!");
         }
         else
         {
-        	Toast.makeText(getActivity().getApplicationContext(), "U bent niet ingelogt", Toast.LENGTH_SHORT).show();
+        	Toast.makeText(getApplicationContext(), "U bent niet ingelogt", Toast.LENGTH_SHORT).show();
         	Log.i("Login", "Not logged in!");
         }
-    }*/   
+        
+        //verwijder dit wanneer check klaar is!
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+    	startActivity(intent);
+    }
+
 }

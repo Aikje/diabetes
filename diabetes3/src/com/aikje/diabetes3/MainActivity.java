@@ -1,18 +1,5 @@
 package com.aikje.diabetes3;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
@@ -37,8 +24,8 @@ public class MainActivity extends ActionBarActivity implements
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	
-	static final String[]					menuEntries	= { "Login", "Invoer", "Grafiek", "Kalender"};
-	static final String[]					fragments	= { "com.aikje.diabetes3.fragment_login", "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar"};
+	static final String[] menuEntries	= { "Invoer", "Grafiek", "Kalender"};
+	static final String[] fragments	= { "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
