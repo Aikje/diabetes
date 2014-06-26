@@ -1,59 +1,74 @@
 package com.aikje.diabetes3;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
-import android.content.Context;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class LoginActivity extends ActionBarActivity {
+@SuppressLint("CommitPrefEdits") public class LoginActivity extends Activity {
 
-	private static final String SETTING_INFOS = "SETTING_Infos";
-	private static final String UID = "NAME";
-	private static final String PASSWORD = "PASSWORD";
+//	private static String SETTING_INFOS = "SETTING_Infos";
+	private static String UID = "NAME";
+	private static String PASSWORD = "PASSWORD";
 	public static int uidInt = 0;
 	public static String passStr = "";
+	public static String uidString = "";
 	
-	private EditText field_uid;
-	private EditText field_pass;
+	EditText field_uid;
+	EditText field_pass;
+	ImageView login_image;
+	// omzetten van de invoer naar string
+	static String field_uidString = "";
+	static String field_passString = "";
 	
 	//private Context context = this.getApplicationContext();
 	
 	// SharedPreferences ophalen uit MainActivity, hierna NAME & PASSWORD vullen met values.
-	SharedPreferences settings; 
+//	SharedPreferences settings; 
+//	Editor editor = settings.edit();
+	
+
+	
+	private checkLogin check;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-		settings = this.getSharedPreferences(SETTING_INFOS, 0);
+		
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final SharedPreferences.Editor settings = preferences.edit();
+    	settings.clear();
+        // strings aanmaken om te loggen
+        final String name = preferences.getString(UID, "");
+		final String password = preferences.getString(PASSWORD, "");
+//		
+		Log.d("Stored Name", "" + name);
+//		settings = getSharedPreferences();
+
 		
 		field_uid = (EditText) findViewById(R.id.uid); 
         field_pass = (EditText)findViewById(R.id.password);
-        
-     // informatie uit sharedPreferences ophalen en invullen in de juiste velden.
-        getInfo();
+
         
         // zodat er geen typewriter-font wordt gebruikt voor de hint in het wachtwoord-veld.
         field_pass.setTypeface(Typeface.DEFAULT);
 
         // ImageView voor login button
-		ImageView login_image = (ImageView) findViewById(R.id.image_button_login);
+		login_image = (ImageView) findViewById(R.id.image_button_login);
 		
 		// onTouchListener voor login_image 
 		login_image.setOnTouchListener(new OnTouchListener() {
@@ -66,33 +81,48 @@ public class LoginActivity extends ActionBarActivity {
 	                    ImageView view = (ImageView) v;
 	                    view.getDrawable().setColorFilter(0x77000000,PorterDuff.Mode.SRC_ATOP);
 	                    view.invalidate();
-	                		
-	                	// omzetten van de invoer naar string
-	                	String field_uidString = field_uid.getText().toString();
-	                	String field_passString = field_pass.getText().toString();
-	                	 	
-	                	checkLogin();
 	                    
+	                	// omzetten van de invoer naar string
+	                	field_uidString = field_uid.getText().toString();
+	                	field_passString = field_pass.getText().toString();
+	                	 	
+//	                	getInfo();
+	                	
+	                	
+
+	                	
 	    				// if else structuur om te kijken of gebruikernaam en wachtwoord zijn ingevuld
 	    				if ((field_uidString == null || field_uidString.equals("")) && (field_passString == null || field_passString.equals(""))) {
-	    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
-	    					Toast.makeText(getApplicationContext(), "Je hebt geen gebruikersnaam en wachtwoord ingevoerd!", Toast.LENGTH_SHORT).show(); 
-	    					Log.d("Login", "Je hebt geen gebruikersnaam en wachtwoord ingevoerd!");
+//	    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
+//		            		Log.d("IF ELSE", "Stored ID: " + name + " Password: " + password);
+//	    					Toast.makeText(getApplicationContext(), "Je hebt geen gebruikersnaam en wachtwoord ingevoerd!", Toast.LENGTH_SHORT).show(); 
+//	    					Log.d("Login", "Je hebt geen gebruikersnaam en wachtwoord ingevoerd!");
 	    				}
 	    				else if (field_uidString == null || field_uidString.equals("")) {
-	    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
-	    				    Toast.makeText(getApplicationContext(), "Je hebt geen gebruikersnaam ingevuld!", Toast.LENGTH_SHORT).show(); 
-	    				    Log.d("Login", "Je hebt geen gebruikersnaam ingevuld!");
+//	    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
+//		            		Log.d("IF ELSE", "Stored ID: " + name + " Password: " + password);
+//	    				    Toast.makeText(getApplicationContext(), "Je hebt geen gebruikersnaam ingevuld!", Toast.LENGTH_SHORT).show(); 
+//	    				    Log.d("Login", "Je hebt geen gebruikersnaam ingevuld!");
 	    				}
 	    				else if (field_passString == null || field_passString.equals("")) {
-	    					uidInt = Integer.parseInt(field_uidString);
-	    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
-		    				Toast.makeText(getApplicationContext(), "Je hebt geen wachtwoord ingevoerd! User ID: " + uidInt, Toast.LENGTH_SHORT).show(); 
-		    				Log.d("Login", "Je hebt geen wachtwoord ingevoerd! User ID: " + uidInt);
+//	    					uidInt = Integer.parseInt(field_uidString);
+//	    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
+//		            		Log.d("IF ELSE", "Stored ID: " + name + " Password: " + password);
+//		    				Toast.makeText(getApplicationContext(), "Je hebt geen wachtwoord ingevoerd! User ID: " + uidInt, Toast.LENGTH_SHORT).show(); 
+//		    				Log.d("Login", "Je hebt geen wachtwoord ingevoerd! User ID: " + uidInt);
 	    				}	
 	    				else {	   
 	    					uidInt = Integer.parseInt(field_uidString);
-	    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
+	    					passStr = preferences.getString(password, "");
+	    					settings.putString(UID, field_uidString);
+	    					settings.putString(PASSWORD, field_passString);
+	    					
+//	    					Log.d("After get", "" + preferences.getString(UID, ""));
+//	    					Log.d("After get", preferences.getString(PASSWORD, ""));
+
+//	    					settings.commit();
+//		            		Log.d("IF ELSE", "Stored ID: " + name + " Password: " + password);
+
 		    				// toast om te laten zien wat er is ingevoerd
 		    				//Toast.makeText(null, "Gebruikersnaam: " + field_uidString + " Wachtwoord: " + field_passString + " User ID " + uidInt, Toast.LENGTH_LONG).show();
 		    				// logje om te laten zien wat er is ingevoerd
@@ -106,7 +136,21 @@ public class LoginActivity extends ActionBarActivity {
 		    		        //Toast.makeText(context.getApplicationContext(), "U bent verbonden met de database", Toast.LENGTH_SHORT).show();
 		    		        //Toast.makeText(context.getApplicationContext(), "U bent NIET verbonden met de database", Toast.LENGTH_SHORT).show();
 	    				}
-	                    break;    
+	    				
+	    				try 
+	                	{
+	    					uidString = field_uidString;
+	    					//passStr = field_passString;
+							checkLogin();
+						} 
+	                	catch (Exception e) 
+						{
+							e.printStackTrace();
+						}
+	    				
+	                    break; 
+	                    
+	                    
 	                }
 	                case MotionEvent.ACTION_UP:
 	                case MotionEvent.ACTION_CANCEL: {
@@ -114,6 +158,20 @@ public class LoginActivity extends ActionBarActivity {
 	                    ImageView view = (ImageView) v;
 	                    view.getDrawable().clearColorFilter();
 	                    view.invalidate();
+	                    // strings aanmaken om te loggen
+//	                    String name = preferences.getString(UID, "");
+//	            		String password = preferences.getString(PASSWORD, "");
+//	            		Log.d("ACTION_CANCEL", "Stored ID: " + name + " Password: " + password);
+	            		
+	            		// omzetten van de invoer naar string
+	            		field_uidString = field_uid.getText().toString();
+	            		field_passString = field_pass.getText().toString();
+	            		
+	            		Log.d("ACTION_CANCEL", "Inserting ID: " + field_uidString + " Password: " + field_passString);
+	            		
+//    					settings.edit().putString(UID, field_uidString).putString(PASSWORD, field_passString).commit();
+//	            		Log.d("ACTION_CANCEL", "Stored2 ID: " + name + " Password: " + password);
+
 	                    break;
 	                }
 	            }
@@ -122,58 +180,67 @@ public class LoginActivity extends ActionBarActivity {
 	    });	
 	}
     
-    public void getInfo()
-    { 
-		//settings = this.getSharedPreferences(SETTING_INFOS, 0);
-		String name = settings.getString(UID, "");
-		String password = settings.getString(PASSWORD, "");
-		try 
-		{
-			uidInt = Integer.parseInt(name);
-			passStr = password;
-		}
-		catch(Exception e)
-		{
-			uidInt = 0;
-			Log.e("get Info", e.toString());
-		}
-		field_uid.setText(name);
-		field_pass.setText(password);	
-    }
+//    public void getInfo()
+//    { 
+//		//settings = this.getSharedPreferences(SETTING_INFOS, 0);
+//		String name = preferences.getString(UID, "");
+//		String password = preferences.getString(PASSWORD, "");
+//		try 
+//		{
+//			Log.d("getInfo name", name);
+//			Log.d("getInfo password", password);
+//			uidInt = Integer.parseInt(name);
+//			passStr = password;
+//			Log.d("getInfo passStr", passStr);
+//		}
+//		catch(Exception e)
+//		{
+//			uidInt = 0;
+//			Log.e("get Info", e.toString());
+//		}
+//		field_uid.setText(name);
+//		field_pass.setText(password);	
+//    }
     
-    public void checkLogin()
-    {
-    	CheckLoginTask clt = new CheckLoginTask(this, getApplicationContext());
-    	Boolean val = false;
+    public void checkLogin() throws Exception
+    {   	
+    	new Thread(new Runnable()
+    	{
+    	    public void run()
+    	    {
+    	    	check = new checkLogin();
+    	    	boolean val = check.getValidationFromServer();
+    	    	Log.d("new val", String.valueOf(val));
+    	    	
+    	    	if(val == true)
+    	        {
+    	        	//Toast.makeText(getApplicationContext(), "U bent ingelogt", Toast.LENGTH_SHORT).show();
+    	        	Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+    	        	startActivity(intent);
+    	        	Log.i("Login", "Logged in!");
+    	        }
+    	        else
+    	        {
+                    
+
+//            		Log.d("Stored Password", "" + password);
+    	        	//Toast.makeText(getApplicationContext(), "U bent niet ingelogt", Toast.LENGTH_SHORT).show();
+    	        	Log.i("Login", "Not logged in!");
+//    	        	Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//    	        	startActivity(intent);
+    	        }
+    	    }
+    	}).start();
     	
-        try
-	    {
-	    	clt.execute();
-	    	Thread.sleep(1000);
-	    	val = clt.getData();
-	    }
-	    catch(Exception e)
-	    {
-	    	//Log.d("Login", e.toString());
-	    	//throw new Exception(e);
-	    }
+    	
         
-        if(val == true)
-        {
-        	Toast.makeText(getApplicationContext(), "U bent ingelogt", Toast.LENGTH_SHORT).show();
-        	//Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        	//startActivity(intent);
-        	Log.i("Login", "Logged in!");
-        }
-        else
-        {
-        	Toast.makeText(getApplicationContext(), "U bent niet ingelogt", Toast.LENGTH_SHORT).show();
-        	Log.i("Login", "Not logged in!");
-        }
+         
+         
+        
         
         //verwijder dit wanneer check klaar is!
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-    	startActivity(intent);
+        //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+    	//startActivity(intent);
     }
 
 }

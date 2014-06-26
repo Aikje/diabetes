@@ -64,9 +64,9 @@ import android.widget.Toast;
 					fragment_graph.addValueToGraphData(waardeInvoerDouble);
 					
 					// toast om te laten zien wat er is ingevoerd
-					Toast.makeText(getActivity(), "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString, Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " Timestamp: " + getCurrentTimeStamp(), Toast.LENGTH_LONG).show();
 					// logje om te laten zien wat er is ingevoerd
-					Log.d("fragment_input", "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString);
+					Log.d("fragment_input", "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " Timestamp: " + getCurrentTimeStamp());
 					
 				    return;
 				}
@@ -78,14 +78,37 @@ import android.widget.Toast;
 				fragment_graph.addValueToGraphData(waardeInvoerDouble);
 				
 				// toast om te laten zien wat er is ingevoerd
-				Toast.makeText(getActivity(), "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString, Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " Timestamp: " + getCurrentTimeStamp(), Toast.LENGTH_LONG).show();
 				// logje om te laten zien wat er is ingevoerd
-				Log.d("fragment_input", "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString);
+				Log.d("fragment_input", "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " Timestamp: " + getCurrentTimeStamp());
 				}
 			}
 		});
 
 		return rootView;
 	}
+	/**
+	 * @return Timestamp
+	 */ 
+	public static String getCurrentTimeStamp(){
+	    try {
 
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        String currentTimeStamp = dateFormat.format(new Date()); // Find todays date
+
+	        return currentTimeStamp;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+
+	        return null;
+	    }
+	}
+	
+	public void onVerzendGegevens()
+	{
+		// add graphDataValue to graphData with fragment_graph.addValueToGraphData()
+		// http://jjoe64.github.io/GraphView/javadoc/com/jjoe64/graphview/GraphViewSeries.html
+		
+	}
+	
 }

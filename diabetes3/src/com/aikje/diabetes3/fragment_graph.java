@@ -41,10 +41,6 @@ public class fragment_graph extends Fragment{
 		
         try
         {        	
-			// timestamp wordt geparst naar string om weer te geven onder de grafiek.
-			String timestamp1 = new String ("eerder");
-			String timestamp2 = new String ("vandaag  ");
-			 
 			GraphView graphView = new LineGraphView(getActivity(), "Waarden in mmol/L");
 			
 			graphView.getGraphViewStyle().setGridColor(Color.BLACK);
@@ -52,14 +48,14 @@ public class fragment_graph extends Fragment{
 			graphView.getGraphViewStyle().setVerticalLabelsColor(Color.BLACK);
 			graphView.getGraphViewStyle().setNumVerticalLabels(9);
 			graphView.getGraphViewStyle().setNumHorizontalLabels(3);
-			graphView.setViewPort(1, 5);
+			graphView.setViewPort(3, 3);
 			graphView.setScrollable(true);
 			graphView.setScalable(true);
 			graphView.setManualYAxisBounds(10, 2);
 			((LineGraphView) graphView).setDrawBackground(true);
 		    ((LineGraphView) graphView).setBackgroundColor(Color.rgb(255, 105, 4));
 		    
-		    graphView.setHorizontalLabels(new String[] {timestamp1, timestamp2});
+		    
 		    
 		    DownloadGraphDataTask ddt = new DownloadGraphDataTask(this, this.getActivity());
 
@@ -75,8 +71,13 @@ public class fragment_graph extends Fragment{
 		    	//Log.d("Graph", e.toString());
 		    	//throw new Exception(e);
 		    }
-			
+
+			// timestamp wordt geparst naar string om weer te geven onder de grafiek.
+			String timestamp1 = new String ("eerder");
+			String timestamp2 = new String (ddt.getLastDate());
+			graphView.setHorizontalLabels(new String[] {timestamp1, timestamp2});
 			graphView.addSeries(setGraphData()); // data
+		
 			 
 			LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.graph1);
 			layout.addView(graphView);
@@ -90,7 +91,9 @@ public class fragment_graph extends Fragment{
 
 	public GraphViewSeries setGraphData()
 	{
-		// data voor grafiek
+		//System.out.println(data.size());
+		// data voor grafiek (haalt de 6 laatste meting uit de arraylist.
+		// De ArrayList is gevult met alle metinging dus kan worden aangepast.
 			try
 			{
 				GraphViewSeries graphData = new GraphViewSeries(new GraphViewData[] 

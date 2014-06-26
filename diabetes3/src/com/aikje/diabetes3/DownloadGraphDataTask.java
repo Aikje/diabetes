@@ -25,6 +25,7 @@ import android.util.Log;
 public class DownloadGraphDataTask extends AsyncTask<ArrayList<Double>, Void, ArrayList<Double>>
 {
 	private ArrayList<Double> data = new ArrayList<Double>();
+	private String datum = "";
 	private ProgressDialog dialog;
 	private static InputStream is = null;
 	private static String getUid = Integer.toString(LoginActivity.uidInt);
@@ -46,6 +47,10 @@ public class DownloadGraphDataTask extends AsyncTask<ArrayList<Double>, Void, Ar
 
 		try 
 		{
+			// gegevens uit LoginActivity halen en deze vervolgens meesturen naar de server voor de query
+			getUid = Integer.toString(LoginActivity.uidInt);
+			urlGraphData = "http://recoma.samba-ti.nl/php/graphData.php" + "?uid=" + getUid;
+			
 			Log.d("JsonData", getJSONFromUrl(urlGraphData).toString());
 			getGraphDataFromJSON(getJSONFromUrl(urlGraphData));
 		} 
@@ -127,19 +132,22 @@ public class DownloadGraphDataTask extends AsyncTask<ArrayList<Double>, Void, Ar
 	
 	protected void getGraphDataFromJSON(JSONArray jArr) throws JSONException 
 	{
-		ArrayList<Double> data = new ArrayList<Double>();
 		for(int i=0; i < jArr.length(); ++i)
 		{
 			JSONObject jObj = jArr.getJSONObject(i);
 			data.add(jObj.getDouble("bloedsuiker"));
+			datum = jObj.getString("datum");
 		}
-		
-		this.data = data;
 	}
 	
 	protected ArrayList<Double> getData()
 	{
 		return data;
+	}
+	
+	protected String getLastDate()
+	{
+		return datum;
 	}
 }
 

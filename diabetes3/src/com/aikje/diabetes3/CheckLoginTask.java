@@ -21,10 +21,13 @@ import android.util.Log;
 
 public class CheckLoginTask extends AsyncTask<Boolean, Void, Boolean>
 {
+	public boolean finished = false;
 	private Boolean data = false;
 	private ProgressDialog dialog;
 	private static String urlCheckLogin = "http://recoma.samba-ti.nl/php/loginCheck.php" + "?uid=" + Integer.toString(LoginActivity.uidInt) + "&pass=" + LoginActivity.passStr;
 	private static InputStream is = null;
+	
+	
 	
 	public CheckLoginTask(LoginActivity obj, Context context)
 	{
@@ -33,8 +36,8 @@ public class CheckLoginTask extends AsyncTask<Boolean, Void, Boolean>
 	
 	protected void onPreExecute()
 	{
-		this.dialog.setMessage("Login verifiëren...");
-		this.dialog.show();
+		//dialog.setMessage("Login verifiëren...");
+		//dialog.show();
 	}
 	
 	protected Boolean doInBackground(Boolean...booleans ) 
@@ -44,7 +47,7 @@ public class CheckLoginTask extends AsyncTask<Boolean, Void, Boolean>
 		try 
 		{
 			Log.d("JsonData", getJSONFromUrl(urlCheckLogin));
-			getLoginValidation(getJSONFromUrl(urlCheckLogin));
+			getLoginValidation(getJSONFromUrl(urlCheckLogin));	
 		} 
 		catch (JSONException e) 
 		{
@@ -61,7 +64,7 @@ public class CheckLoginTask extends AsyncTask<Boolean, Void, Boolean>
 	}
 	
 	protected void onPostExecute(Boolean data) 
-	{	
+	{			
 		Log.d("AsyncTask", "onPostExecute(CLT)");
 		Log.d("AsyncTask", data.toString());
 		
@@ -102,25 +105,28 @@ public class CheckLoginTask extends AsyncTask<Boolean, Void, Boolean>
 			}
 			is.close();
 			jStr = strBuilder.toString();
+			Log.d("jsonFromURL", jStr);
 			
 		}
 		catch(Exception e)
 		{
 			Log.e("JSONParser", e.toString());
 		}
-		
-		
+
 		return jStr;
 		
 	}
 	
 	protected void getLoginValidation(String jStr) throws JSONException
 	{
-		Boolean data = Boolean.valueOf(jStr);
-		this.data = data;
+		boolean val = Boolean.parseBoolean(jStr);
+		String log = jStr + " -> " + Boolean.toString(val); 
+		Log.d("getLoginValidation", log);
+		data = val;
+		finished = true;
 	}
-	
-	protected Boolean getData()
+
+	protected boolean getData()
 	{
 		return data;
 	}
