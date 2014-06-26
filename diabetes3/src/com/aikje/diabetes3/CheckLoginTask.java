@@ -13,7 +13,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -23,12 +22,10 @@ public class CheckLoginTask extends AsyncTask<Boolean, Void, Boolean>
 {
 	public boolean finished = false;
 	private Boolean data = false;
-	private ProgressDialog dialog;
+	public ProgressDialog dialog;
 	private static String urlCheckLogin = "http://recoma.samba-ti.nl/php/loginCheck.php" + "?uid=" + Integer.toString(LoginActivity.uidInt) + "&pass=" + LoginActivity.passStr;
 	private static InputStream is = null;
-	
-	
-	
+
 	public CheckLoginTask(LoginActivity obj, Context context)
 	{
 		dialog = new ProgressDialog(context);
@@ -36,14 +33,15 @@ public class CheckLoginTask extends AsyncTask<Boolean, Void, Boolean>
 	
 	protected void onPreExecute()
 	{
-		//dialog.setMessage("Login verifiëren...");
-		//dialog.show();
+		super.onPreExecute();
+		dialog.setMessage("Login verifiëren...");
+		dialog.show();
 	}
 	
 	protected Boolean doInBackground(Boolean...booleans ) 
 	{
 		Log.d("AsyncTask", "doInBackground(CLT)");
-
+		
 		try 
 		{
 			Log.d("JsonData", getJSONFromUrl(urlCheckLogin));
@@ -54,15 +52,9 @@ public class CheckLoginTask extends AsyncTask<Boolean, Void, Boolean>
 			Log.d("JsonData", e.toString());
 			e.printStackTrace();
 		}
-
 		return data;
 	}
-	
-	protected void onProgressUpdate()
-	{
-	
-	}
-	
+		
 	protected void onPostExecute(Boolean data) 
 	{			
 		Log.d("AsyncTask", "onPostExecute(CLT)");
@@ -70,11 +62,11 @@ public class CheckLoginTask extends AsyncTask<Boolean, Void, Boolean>
 		
 		if (dialog.isShowing())
 		{
+			super.onPostExecute(true);
 			dialog.dismiss();
 		}
 	}
 	
-	@SuppressLint("NewApi") 
 	protected static String getJSONFromUrl(String url) throws JSONException 
 	{
 		String jStr = null;
@@ -106,15 +98,12 @@ public class CheckLoginTask extends AsyncTask<Boolean, Void, Boolean>
 			is.close();
 			jStr = strBuilder.toString();
 			Log.d("jsonFromURL", jStr);
-			
 		}
 		catch(Exception e)
 		{
 			Log.e("JSONParser", e.toString());
 		}
-
 		return jStr;
-		
 	}
 	
 	protected void getLoginValidation(String jStr) throws JSONException

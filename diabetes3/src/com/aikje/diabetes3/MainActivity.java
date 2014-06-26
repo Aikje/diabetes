@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-@SuppressLint("ValidFragment")
 public class MainActivity extends ActionBarActivity implements
 		ActionBar.OnNavigationListener {
 
@@ -27,7 +26,6 @@ public class MainActivity extends ActionBarActivity implements
 	static final String[] menuEntries	= { "Invoer", "Grafiek", "Kalender"};
 	static final String[] fragments	= { "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar"};
 	
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final ActionBar actionBar = getSupportActionBar();
@@ -45,7 +43,6 @@ public class MainActivity extends ActionBarActivity implements
 						android.R.id.text1, menuEntries), this);
 	}
 
-	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		// Restore the previously serialized current dropdown position.
 		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
@@ -54,19 +51,15 @@ public class MainActivity extends ActionBarActivity implements
 		}
 	}
 
-	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		// Serialize the current dropdown position.
 		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getSupportActionBar()
 				.getSelectedNavigationIndex());
 	}
 
-	
 	/**
 	 * A ListContentFragment class.
 	 */
-
-		  @Override
 		  public boolean onNavigationItemSelected(int position, long itemId) {
 		    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
@@ -84,11 +77,9 @@ public class MainActivity extends ActionBarActivity implements
 	 * A ListContentFragment class.
 	 */
 	
-	@SuppressLint("ValidFragment")
-	public class ListContentFragment extends Fragment {
+	@SuppressLint("ValidFragment") public class ListContentFragment extends Fragment {
 	    private String mText; 
 
-	    @Override
 	    public void onAttach(Activity activity) {
 	      // This is the first callback received; here we can set the text for
 	      // the fragment as defined by the tag specified during the fragment
@@ -97,7 +88,6 @@ public class MainActivity extends ActionBarActivity implements
 	      mText = getTag();
 	    }
 
-	    @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	            Bundle savedInstanceState) {
 	        // This is called to define the layout for the fragment;
@@ -132,7 +122,6 @@ public class MainActivity extends ActionBarActivity implements
 		public PlaceholderFragment() {
 		}
 
-		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_main, container,
@@ -145,4 +134,3 @@ public class MainActivity extends ActionBarActivity implements
 		}
 	}
 }
-

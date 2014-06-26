@@ -1,7 +1,5 @@
 package com.aikje.diabetes3;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +17,10 @@ import android.widget.Toast;
 
 @SuppressLint("SimpleDateFormat") public class fragment_input extends Fragment{
 
+	EditText waardeInvoer;
+	EditText commentaarInvoer;
+	Button verzendGegevens;
+	String inputID = Integer.toString(LoginActivity.uidInt);
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -30,18 +32,22 @@ import android.widget.Toast;
 	{
 		View rootView = inflater.inflate(R.layout.fragment_input, container, false);
 
-		final EditText waardeInvoer = (EditText)rootView.findViewById(R.id.waardeInvoer);
-		final EditText commentaarInvoer = (EditText)rootView.findViewById(R.id.commentaarInvoer);
-		@SuppressWarnings("unused")
-		final int crossWaardeInteger = 0;
+		waardeInvoer = (EditText)rootView.findViewById(R.id.waardeInvoer);
+		commentaarInvoer = (EditText)rootView.findViewById(R.id.commentaarInvoer);		
+		verzendGegevens = (Button) rootView.findViewById(R.id.verzendGegevens);
 		
-		Button verzendGegevens = (Button) rootView.findViewById(R.id.verzendGegevens);
-		//OnClick listener
+		onClickListener();
+		
+		return rootView;
+	}
+
+	/*
+	 * onClickListener voor de verzendknop
+	 */
+	void onClickListener()
+	{
 		verzendGegevens.setOnClickListener(new View.OnClickListener()
 		{
-			/**
-			 * @return Verzendknop in fragment_input
-			 */
 			public void onClick(View v)
 			{
 				// omzetten van de invoer naar string
@@ -56,18 +62,10 @@ import android.widget.Toast;
 				
 				// checken of er commentaar is ingevoerd, anders doorgaan zonder commentaar
 				if (commentaarInvoerString == null || commentaarInvoerString.equals("")) {
-				    // Toast.makeText(getActivity(), "Je hebt geen commentaar ingevoerd!", Toast.LENGTH_SHORT).show();
-					
-					// omzetten van waarde naar integer
-					Double waardeInvoerDouble = Double.parseDouble(waardeInvoer.getText().toString());
-					
-					fragment_graph.addValueToGraphData(waardeInvoerDouble);
-					
 					// toast om te laten zien wat er is ingevoerd
-					Toast.makeText(getActivity(), "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " Timestamp: " + getCurrentTimeStamp(), Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " ID: " + inputID, Toast.LENGTH_LONG).show();
 					// logje om te laten zien wat er is ingevoerd
-					Log.d("fragment_input", "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " Timestamp: " + getCurrentTimeStamp());
-					
+					Log.d("fragment_input", "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " ID: " + inputID);
 				    return;
 				}
 				
@@ -78,37 +76,13 @@ import android.widget.Toast;
 				fragment_graph.addValueToGraphData(waardeInvoerDouble);
 				
 				// toast om te laten zien wat er is ingevoerd
-				Toast.makeText(getActivity(), "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " Timestamp: " + getCurrentTimeStamp(), Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " ID: " + inputID, Toast.LENGTH_LONG).show();
 				// logje om te laten zien wat er is ingevoerd
-				Log.d("fragment_input", "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " Timestamp: " + getCurrentTimeStamp());
+				Log.d("fragment_input", "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " ID: " + inputID);
 				}
 			}
 		});
-
-		return rootView;
-	}
-	/**
-	 * @return Timestamp
-	 */ 
-	public static String getCurrentTimeStamp(){
-	    try {
-
-	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	        String currentTimeStamp = dateFormat.format(new Date()); // Find todays date
-
-	        return currentTimeStamp;
-	    } catch (Exception e) {
-	        e.printStackTrace();
-
-	        return null;
-	    }
-	}
-	
-	public void onVerzendGegevens()
-	{
-		// add graphDataValue to graphData with fragment_graph.addValueToGraphData()
-		// http://jjoe64.github.io/GraphView/javadoc/com/jjoe64/graphview/GraphViewSeries.html
-		
-	}
-	
+	};
 }
+		
+		

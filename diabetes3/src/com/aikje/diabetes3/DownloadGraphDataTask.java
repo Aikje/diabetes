@@ -16,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -26,7 +25,7 @@ public class DownloadGraphDataTask extends AsyncTask<ArrayList<Double>, Void, Ar
 {
 	private ArrayList<Double> data = new ArrayList<Double>();
 	private String datum = "";
-	private ProgressDialog dialog;
+	ProgressDialog dialog;
 	private static InputStream is = null;
 	private static String getUid = Integer.toString(LoginActivity.uidInt);
 	private static String urlGraphData = "http://recoma.samba-ti.nl/php/graphData.php" + "?uid=" + getUid;
@@ -44,7 +43,6 @@ public class DownloadGraphDataTask extends AsyncTask<ArrayList<Double>, Void, Ar
 	protected ArrayList<Double> doInBackground(ArrayList<Double>...arrayLists ) 
 	{
 		Log.d("AsyncTask", "doInBackground(DGDT)");
-
 		try 
 		{
 			// gegevens uit LoginActivity halen en deze vervolgens meesturen naar de server voor de query
@@ -63,11 +61,6 @@ public class DownloadGraphDataTask extends AsyncTask<ArrayList<Double>, Void, Ar
 		return data;
 	}
 	
-	protected void onProgressUpdate()
-	{
-	
-	}
-	
 	protected void onPostExecute(ArrayList<Double> data) 
 	{
 		
@@ -80,7 +73,6 @@ public class DownloadGraphDataTask extends AsyncTask<ArrayList<Double>, Void, Ar
 		}
 	}
 	
-	@SuppressLint("NewApi") 
 	protected static JSONArray getJSONFromUrl(String url) throws JSONException 
 	{
 		JSONArray jArr = null;
@@ -112,7 +104,6 @@ public class DownloadGraphDataTask extends AsyncTask<ArrayList<Double>, Void, Ar
 			}
 			is.close();
 			jsonStr = strBuilder.toString();
-			
 		}
 		catch(Exception e)
 		{
@@ -150,7 +141,3 @@ public class DownloadGraphDataTask extends AsyncTask<ArrayList<Double>, Void, Ar
 		return datum;
 	}
 }
-
-	
-
-

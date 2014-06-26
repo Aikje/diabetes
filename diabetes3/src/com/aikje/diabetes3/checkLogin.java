@@ -17,7 +17,6 @@ import android.util.Log;
 public class checkLogin {
 	
 	static String UID = "";
-//	static String PASSWORD = LoginActivity.field_passString;
 	static String PASSWORD = "";
 	
 	private static String urlCheckLogin = "";
@@ -61,9 +60,6 @@ public class checkLogin {
 			jStr = strBuilder.toString();
 			int jInt = Integer.parseInt(jStr.replace("\"", ""));
 			System.out.print(strBuilder.toString());
-			
-			//jBool = Boolean.valueOf(jString);
-			//jBool = Boolean.parseBoolean(jStr);
 
 			if(jInt == 1)
 			{
@@ -73,7 +69,6 @@ public class checkLogin {
 			{
 				jBool = false;
 			}
-			//jBool = true;
 			Log.d("checkLogin (jStr)", jStr);
 			//Log.d("checkLogin (jString)", String.valueOf(jInt));
 			Log.d("checkLogin (jBool)", String.valueOf(jBool));
