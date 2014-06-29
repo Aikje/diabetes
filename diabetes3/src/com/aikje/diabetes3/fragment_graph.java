@@ -1,7 +1,6 @@
 package com.aikje.diabetes3;
 
 import java.util.ArrayList;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphViewSeries;
@@ -31,6 +29,7 @@ public class Fragment_graph extends Fragment{
 	public void onCreate(Bundle savedInstanceState, Fragment_graph context)
 	{
 		super.onCreate(savedInstanceState);
+		getActivity().supportInvalidateOptionsMenu();
 		context = this;
 	}
 	
@@ -39,7 +38,8 @@ public class Fragment_graph extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View rootView = inflater.inflate(R.layout.fragment_graph, container, false);
-		
+		getActivity().supportInvalidateOptionsMenu();
+
         try
         {        	
 			GraphView graphView = new LineGraphView(getActivity(), "Waarden in mmol/L");
@@ -124,5 +124,6 @@ public class Fragment_graph extends Fragment{
 		final FragmentTransaction ft = getFragmentManager().beginTransaction(); 
 		ft.replace(R.id.main, Fragment.instantiate(getActivity(), "com.aikje.diabetes3.Fragment_input")); 
 		ft.commit(); 
+		getActivity().supportInvalidateOptionsMenu();
 	}
 }

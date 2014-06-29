@@ -1,6 +1,5 @@
 package com.aikje.diabetes3;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +15,7 @@ import android.widget.Toast;
  * @author Aike Brakel
  */
 
-@SuppressLint("SimpleDateFormat") public class Fragment_input extends Fragment{
+public class Fragment_input extends Fragment{
 
 	EditText waardeInvoer;
 	EditText commentaarInvoer;
@@ -27,13 +26,15 @@ import android.widget.Toast;
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		getActivity().supportInvalidateOptionsMenu();
 	}
 	
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View rootView = inflater.inflate(R.layout.fragment_input, container, false);
 
+		getActivity().supportInvalidateOptionsMenu();
+		
 		waardeInvoer = (EditText)rootView.findViewById(R.id.waardeInvoer);
 		commentaarInvoer = (EditText)rootView.findViewById(R.id.commentaarInvoer);		
 		verzendGegevens = (Button) rootView.findViewById(R.id.verzendGegevens);
@@ -93,7 +94,6 @@ import android.widget.Toast;
 					{
 						Toast.makeText(getActivity(), "Je hebt een foutieve waarde ingevoerd", Toast.LENGTH_LONG).show();
 					}
-					
 				    return;
 				}
 				
@@ -128,8 +128,6 @@ import android.widget.Toast;
 					Log.d("fragment_input", "Waarde: " + waardeInvoerString + " Commentaar: " + commentaarInvoerString + " ID: " + inputID);
 				}
 			}
-
-
 		});
 	};
 	
@@ -139,9 +137,7 @@ import android.widget.Toast;
 	private void changeFragment() {
 		final FragmentTransaction ft = getFragmentManager().beginTransaction(); 
 		ft.replace(R.id.main, Fragment.instantiate(getActivity(), "com.aikje.diabetes3.Fragment_graph")); 
-		ft.commit(); 
+		ft.commit();
+		getActivity().supportInvalidateOptionsMenu();
 	}
-	
 }
-		
-		
