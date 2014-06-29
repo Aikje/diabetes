@@ -23,6 +23,7 @@ public class LoginActivity extends Activity {
 	public static int uidInt = 0;
 	public static String passStr = "";
 	public static String uidString = "";
+	public static String uidName = "";
 	public static Boolean val = false;
 	
 	EditText field_uid;
@@ -32,7 +33,7 @@ public class LoginActivity extends Activity {
 	static String field_uidString;
 	static String field_passString;
 	// checkLogin object aanmaken
-	private checkLogin check;
+	private CheckLogin check;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,7 +43,7 @@ public class LoginActivity extends Activity {
 		final SharedPreferences.Editor settings = preferences.edit();
     	settings.clear();
         // strings vullen om in te loggen
-		final String password = preferences.getString(PASSWORD, "");		
+		final String password = preferences.getString(PASSWORD, "");
 		field_uid = (EditText) findViewById(R.id.uid); 
         field_pass = (EditText)findViewById(R.id.password);
 
@@ -135,20 +136,20 @@ public class LoginActivity extends Activity {
     /*
      * controleren of de user-ID en password valid zijn.
      */
-    public void checkLogin() throws Exception
+    private void checkLogin() throws Exception
     {   	
     	new Thread(new Runnable()
     	{
     	    public void run()
     	    {
-    	    	check = new checkLogin();
+    	    	check = new CheckLogin();
     	    	LoginActivity.val = check.getValidationFromServer();
+    	    	uidName = check.getUserName();
     	    	Log.d("new val", String.valueOf(val));
     	    	
     	    	if(val == true)
     	        {
-    	    		showToast("U bent succesvol ingelogd");
-    	        	Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+    	        	Intent intent = new Intent(LoginActivity.this, SplashScreen.class);
     	        	startActivity(intent);
     	        	Log.i("Login", "Logged in!");
     	        }
@@ -162,7 +163,7 @@ public class LoginActivity extends Activity {
     }
 
     /*
-     * Toast bericht weergeven.
+     * Toast bericht weergeven in Thread
      */
     public void showToast(final String toast)
 	{

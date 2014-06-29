@@ -19,5 +19,6 @@
     <string name="wachtwoord">Voer hier je wachtwoord in</string>
     <string name="login_button">login button</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
 
 </resources>

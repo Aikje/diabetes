@@ -29,7 +29,7 @@ public class DownloadGraphDataTask extends AsyncTask<ArrayList<Double>, Void, Ar
 	private static InputStream is = null;
 	private static String getUid = Integer.toString(LoginActivity.uidInt);
 	private static String urlGraphData = "http://recoma.samba-ti.nl/php/graphData.php" + "?uid=" + getUid;
-	public DownloadGraphDataTask(fragment_graph obj, Activity activity)
+	public DownloadGraphDataTask(Fragment_graph obj, Activity activity)
 	{
 		dialog = new ProgressDialog(activity);
 	}

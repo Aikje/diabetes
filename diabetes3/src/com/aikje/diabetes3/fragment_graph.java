@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +23,12 @@ import com.jjoe64.graphview.LineGraphView;
  * @author Aike Brakel
  */
 
-public class fragment_graph extends Fragment{
+public class Fragment_graph extends Fragment{
 
 	ArrayList<Double> data = new ArrayList<Double>();
 	Context context;
 	
-	public void onCreate(Bundle savedInstanceState, fragment_graph context)
+	public void onCreate(Bundle savedInstanceState, Fragment_graph context)
 	{
 		super.onCreate(savedInstanceState);
 		context = this;
@@ -109,13 +110,19 @@ public class fragment_graph extends Fragment{
 			}
 			catch(Exception e)
 			{
-				Toast.makeText(getActivity().getApplicationContext(), "Er is te weinig data om een grafiek weer te geven", Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Er is te weinig data om een grafiek weer te geven, u moet minimaal 6 waarden invoeren!", Toast.LENGTH_LONG).show();
 				Log.d("Graph", e.toString());
+				changeFragment();
 			}
 			return null;
-
 	}
-
-	public static void addValueToGraphData(Double waardeInvoerDouble) {		
+	
+	/*
+	 * Na het verzenden van de data de fragmentview veranderen naar fragment_graph
+	 */
+	private void changeFragment() {
+		final FragmentTransaction ft = getFragmentManager().beginTransaction(); 
+		ft.replace(R.id.main, Fragment.instantiate(getActivity(), "com.aikje.diabetes3.Fragment_input")); 
+		ft.commit(); 
 	}
 }

@@ -24,7 +24,7 @@ public class MainActivity extends ActionBarActivity implements
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	
 	static final String[] menuEntries	= { "Invoer", "Grafiek", "Kalender"};
-	static final String[] fragments	= { "com.aikje.diabetes3.fragment_input", "com.aikje.diabetes3.fragment_graph", "com.aikje.diabetes3.fragment_calendar"};
+	static final String[] fragments	= { "com.aikje.diabetes3.Fragment_input", "com.aikje.diabetes3.Fragment_graph", "com.aikje.diabetes3.Fragment_calendar"};
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,6 +41,13 @@ public class MainActivity extends ActionBarActivity implements
 				new ArrayAdapter<String>(actionBar.getThemedContext(),
 						android.R.layout.simple_list_item_1,
 						android.R.id.text1, menuEntries), this);
+	}
+	
+	public void changeFragment(int index)
+	{
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+	    ft.replace(R.id.main, Fragment.instantiate(MainActivity.this, fragments[index]));
+	    ft.commit();
 	}
 
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -96,6 +103,7 @@ public class MainActivity extends ActionBarActivity implements
 	        text.setText(mText);
 	        return text;
 	    }
+	    
 	}
 
 	/**

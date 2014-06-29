@@ -25,8 +25,8 @@
         android:layout_marginTop="24dp"
         android:ems="15"
         android:hint="@string/wachtwoord"
- 		android:layout_gravity="center_horizontal" />
-<!--         android:inputType="textPassword" /> -->
+ 		android:layout_gravity="center_horizontal"
+        android:inputType="textPassword" />
 
     <ImageView
         android:id="@+id/image_button_login"

@@ -5,16 +5,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.util.Log;
 
-public class checkLogin {
+public class CheckLogin {
 	
 	static String UID = "";
 	static String PASSWORD = "";
@@ -26,14 +31,21 @@ public class checkLogin {
 	{
 		UID = LoginActivity.field_uidString;
 		PASSWORD = LoginActivity.field_passString;
-		urlCheckLogin = "http://recoma.samba-ti.nl/php/loginCheck.php" + "?uid=" + UID + "&pass=" + PASSWORD;
+		urlCheckLogin = "http://recoma.samba-ti.nl/php/loginCheck.php";
+		
 		String jStr = null;
 		boolean jBool = false;
+		
 		try 
 		{
-			Log.d("URL", urlCheckLogin);
 			DefaultHttpClient client = new DefaultHttpClient();
 			HttpPost post = new HttpPost(urlCheckLogin);
+			
+			List<NameValuePair> nvp = new ArrayList<NameValuePair>(2);
+			nvp.add(new BasicNameValuePair("uid", UID));
+			nvp.add(new BasicNameValuePair("pass", PASSWORD));
+			post.setEntity(new UrlEncodedFormEntity(nvp));
+			
 			HttpResponse response = client.execute(post);
 			HttpEntity entity = response.getEntity();
 			is = entity.getContent();
@@ -80,5 +92,58 @@ public class checkLogin {
 		}
 
 		return jBool;
+	}
+	
+	public String getUserName()
+	{
+		UID = LoginActivity.field_uidString;
+		PASSWORD = LoginActivity.field_passString;
+		urlCheckLogin = "http://recoma.samba-ti.nl/php/getName.php";
+		
+		String name = null;
+		
+		try 
+		{
+			DefaultHttpClient client = new DefaultHttpClient();
+			HttpPost post = new HttpPost(urlCheckLogin);
+			
+			List<NameValuePair> nvp = new ArrayList<NameValuePair>(2);
+			nvp.add(new BasicNameValuePair("uid", UID));
+			nvp.add(new BasicNameValuePair("pass", PASSWORD));
+			post.setEntity(new UrlEncodedFormEntity(nvp));
+			
+			HttpResponse response = client.execute(post);
+			HttpEntity entity = response.getEntity();
+			is = entity.getContent();
+
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+			StringBuilder strBuilder = new StringBuilder();
+			String line;
+			while((line = reader.readLine()) != null)
+			{
+				strBuilder.append(line);
+			}
+			is.close();
+
+			name = strBuilder.toString().replace("\"", "");
+			System.out.print(strBuilder.toString());
+		}
+		catch(Exception e)
+		{
+			Log.e("JSONParser", e.toString());
+		}
+		Log.d("checkLogin (name)", name);
+		
+		return name;
 	}
 }
